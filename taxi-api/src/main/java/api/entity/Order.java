@@ -12,8 +12,11 @@ public class Order {
     private String location;
     private String target;
     private float price;
+    private int mark;
     @ManyToOne(targetEntity = Account.class)
-    private Account account;
+    private Account passenger;
+    @ManyToOne(targetEntity = Account.class)
+    private Account driver;
     @ManyToOne(targetEntity = Car.class)
     private Car car;
     @Column(name = "status_order")
@@ -22,13 +25,15 @@ public class Order {
     public Order() {
     }
 
-    public Order(long id, String comment, String location, String target, float price, Account account, Car car, String statusOrder) {
+    public Order(long id, String comment, String location, String target, float price, int mark, Account passenger, Account driver, Car car, String statusOrder) {
         this.id = id;
         this.comment = comment;
         this.location = location;
         this.target = target;
         this.price = price;
-        this.account = account;
+        this.mark = mark;
+        this.passenger = passenger;
+        this.driver = driver;
         this.car = car;
         this.statusOrder = statusOrder;
     }
@@ -73,12 +78,28 @@ public class Order {
         this.price = price;
     }
 
-    public Account getAccount() {
-        return account;
+    public int getMark() {
+        return mark;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public Account getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(Account passenger) {
+        this.passenger = passenger;
+    }
+
+    public Account getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Account driver) {
+        this.driver = driver;
     }
 
     public Car getCar() {
@@ -97,46 +118,46 @@ public class Order {
         this.statusOrder = statusOrder;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", comment='" + comment + '\'' +
-                ", location='" + location + '\'' +
-                ", target='" + target + '\'' +
-                ", price=" + price +
-                ", account=" + account +
-                ", car=" + car +
-                ", statusOrder='" + statusOrder + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        if (Float.compare(order.price, price) != 0) return false;
-        if (comment != null ? !comment.equals(order.comment) : order.comment != null) return false;
-        if (!location.equals(order.location)) return false;
-        if (!target.equals(order.target)) return false;
-        if (!account.equals(order.account)) return false;
-        if (car != null ? !car.equals(order.car) : order.car != null) return false;
-        return statusOrder.equals(order.statusOrder);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = comment != null ? comment.hashCode() : 0;
-        result = 31 * result + location.hashCode();
-        result = 31 * result + target.hashCode();
-        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-        result = 31 * result + account.hashCode();
-        result = 31 * result + (car != null ? car.hashCode() : 0);
-        result = 31 * result + statusOrder.hashCode();
-        return result;
-    }
+//    @Override
+//    public String toString() {
+//        return "Order{" +
+//                "id=" + id +
+//                ", comment='" + comment + '\'' +
+//                ", location='" + location + '\'' +
+//                ", target='" + target + '\'' +
+//                ", price=" + price +
+//                ", account=" + account +
+//                ", car=" + car +
+//                ", statusOrder='" + statusOrder + '\'' +
+//                '}';
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Order order = (Order) o;
+//
+//        if (Float.compare(order.price, price) != 0) return false;
+//        if (comment != null ? !comment.equals(order.comment) : order.comment != null) return false;
+//        if (!location.equals(order.location)) return false;
+//        if (!target.equals(order.target)) return false;
+//        if (!account.equals(order.account)) return false;
+//        if (car != null ? !car.equals(order.car) : order.car != null) return false;
+//        return statusOrder.equals(order.statusOrder);
+//
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = comment != null ? comment.hashCode() : 0;
+//        result = 31 * result + location.hashCode();
+//        result = 31 * result + target.hashCode();
+//        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
+//        result = 31 * result + account.hashCode();
+//        result = 31 * result + (car != null ? car.hashCode() : 0);
+//        result = 31 * result + statusOrder.hashCode();
+//        return result;
+//    }
 }

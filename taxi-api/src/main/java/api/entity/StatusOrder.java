@@ -7,8 +7,7 @@ public enum StatusOrder {
     AWAIT,
     RUN,
     DONE,
-    CANCELLED,
-    FAILED;
+    CANCELLED;
 
     public static List<StatusOrder> getAll() {
         return Arrays.asList(StatusOrder.values());

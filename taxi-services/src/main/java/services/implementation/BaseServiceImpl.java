@@ -25,11 +25,7 @@ class BaseServiceImpl<T, TDAO extends BaseDAO<T>> {
 
     @Transactional
     public List<T> getAll() {
-        List<T> tList = new ArrayList<>();
-        for (T t: tDAO.getAll()) {
-            tList.add(t);
-        }
-        return tList;
+        return tDAO.getAll();
     }
 
     @Transactional

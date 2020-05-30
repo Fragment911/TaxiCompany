@@ -1,6 +1,6 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>Accounts</h1>
-    <table class="table table-striped">
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
                 <th>Login</th>

@@ -1,6 +1,6 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>Account</h1>
-    <table class="table table-striped">
+    <table class="table table-striped table-dark">
         <tbody>
 <%--            <tr>--%>
 <%--                <td>Id</td>--%>
@@ -41,5 +41,5 @@
         </tbody>
     </table>
     <a href="${pageContext.request.contextPath}/account/update/${account.id}" class="btn btn-warning"><i class="fa fa-pencil-square fa-fw"></i>Update</a>
-    <a href="${pageContext.request.contextPath}/account" class="btn btn-default"><i class="fa fa-reply fa-fw"></i>Back</a>
+    <a href="${pageContext.request.contextPath}/account" class="btn btn-outline-secondary"><i class="fa fa-reply fa-fw"></i>Back</a>
 <%@ include file="/webresources/footer.jspf"%>

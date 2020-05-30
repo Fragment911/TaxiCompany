@@ -50,56 +50,30 @@ public class OrderController {
             case "CANCELLED":
                 model.addAttribute("back", "cancelledlist");
                 break;
-            case "FAILED":
-                model.addAttribute("back", "failedlist");
-                break;
         }
         return "order/info";
     }
 
     @RequestMapping(value = {"/awaitlist"}, method = RequestMethod.GET)
     public String getAwait(Model model) {
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        List<Order> orderList = orderService.getByStatusOrder(StatusOrder.AWAIT);
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.iterator().next().toString().contains("PASSENGER")) {
-            orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
-        }
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderService.getAll(StatusOrder.AWAIT));
+        model.addAttribute("status", "AWAIT");
         model.addAttribute("title", "Await order list");
         return "order/list";
     }
 
     @RequestMapping(value = {"/runlist"}, method = RequestMethod.GET)
     public String getRun(Model model) {
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        List<Order> orderList = orderService.getByStatusOrder(StatusOrder.RUN);
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.iterator().next().toString().contains("PASSENGER")) {
-            orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
-        }
-        if (authorities.iterator().next().toString().contains("DRIVER")) {
-            Car car = account.getCar();
-            orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
-        }
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderService.getAll(StatusOrder.RUN));
+        model.addAttribute("status", "RUN");
         model.addAttribute("title", "Run order list");
         return "order/list";
     }
 
     @RequestMapping(value = {"/donelist"}, method = RequestMethod.GET)
     public String getDone(Model model) {
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        List<Order> orderList = orderService.getByStatusOrder(StatusOrder.DONE);
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.iterator().next().toString().contains("PASSENGER")) {
-            orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
-        }
-        if (authorities.iterator().next().toString().contains("DRIVER")) {
-            Car car = account.getCar();
-            orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
-        }
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderService.getAll(StatusOrder.DONE));
+        model.addAttribute("status", "DONE");
         model.addAttribute("title", "Done order list");
         return "order/list";
     }
@@ -107,31 +81,9 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER', 'PASSENGER')")
     @RequestMapping(value = {"/cancelledlist"}, method = RequestMethod.GET)
     public String getCancelled(Model model) {
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        List<Order> orderList = orderService.getByStatusOrder(StatusOrder.CANCELLED);
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.iterator().next().toString().contains("PASSENGER")) {
-            orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
-        }
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderService.getAll(StatusOrder.CANCELLED));
+        model.addAttribute("status", "CANCELLED");
         model.addAttribute("title", "Cancelled order list");
-        return "order/list";
-    }
-
-    @RequestMapping(value = {"/failedlist"}, method = RequestMethod.GET)
-    public String getFailed(Model model) {
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        List<Order> orderList = orderService.getByStatusOrder(StatusOrder.FAILED);
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.iterator().next().toString().contains("PASSENGER")) {
-            orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
-        }
-        if (authorities.iterator().next().toString().contains("DRIVER")) {
-            Car car = account.getCar();
-            orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
-        }
-        model.addAttribute("orderList", orderList);
-        model.addAttribute("title", "Failed order list");
         return "order/list";
     }
 
@@ -149,7 +101,7 @@ public class OrderController {
         order.setStatusOrder(StatusOrder.AWAIT.name());
         order.setPrice(10);
         Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        order.setAccount(account);
+        order.setPassenger(account);
         orderService.create(order);
         return "redirect:/order/awaitlist";
     }
@@ -173,9 +125,6 @@ public class OrderController {
                 break;
             case "CANCELLED":
                 model.addAttribute("back", "cancelledlist");
-                break;
-            case "FAILED":
-                model.addAttribute("back", "failedlist");
                 break;
         }
         return "order/update";
@@ -212,14 +161,14 @@ public class OrderController {
         return "redirect:/order/cancelledlist";
     }
 
-    @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/fail/{id}"}, method = RequestMethod.GET)
-    public String fail(@PathVariable("id") Long id) {
-        Order order = orderService.get(id);
-        order.setStatusOrder(StatusOrder.FAILED.name());
-        orderService.update(order);
-        return "redirect:/order/failedlist";
-    }
+//    @PreAuthorize("hasAnyRole('PASSENGER')")
+//    @RequestMapping(value = {"/fail/{id}"}, method = RequestMethod.GET)
+//    public String fail(@PathVariable("id") Long id) {
+//        Order order = orderService.get(id);
+//        order.setStatusOrder(StatusOrder.FAILED.name());
+//        orderService.update(order);
+//        return "redirect:/order/failedlist";
+//    }
 
     @PreAuthorize("hasAnyRole('DRIVER')")
     @RequestMapping(value = {"/take/{id}"}, method = RequestMethod.GET)

@@ -13,44 +13,79 @@
 
 <body>
     <c:set var="role" value="${pageContext.request.userPrincipal.authorities.toString()}"/>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <ul class="nav navbar-nav">
-            <c:if test="${role.contains('ADMIN')}">
-                <li><a href="${pageContext.request.contextPath}/account"><h4>Accounts</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/car"><h4>Cars</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/option"><h4>Options</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/order/awaitlist"><h4>Await orders</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/order/runlist"><h4>Run orders</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/order/donelist"><h4>Done orders</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/order/cancelledlist"><h4>Cancelled orders</h4></a></li>
-            </c:if>
-            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
-                <li><a href="${pageContext.request.contextPath}/order/failedlist"><h4>Failed orders</h4></a></li>
-            </c:if>
-        </ul>
-        <ul class="nav navbar-nav pull-right">
-            <c:if test="${pageContext.request.userPrincipal.name == null}">
-                <li><a href="${pageContext.request.contextPath}/login"><h4>Sign in</h4></a></li>
-                <li><a href="${pageContext.request.contextPath}/registration"><h4>Sign up</h4></a></li>
-            </c:if>
-            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <li><a href="${pageContext.request.contextPath}/logout"><h4>Logout (${pageContext.request.userPrincipal.name})</h4></a></li>
-            </c:if>
-        </ul>
-    </div>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <c:if test="${role.contains('ADMIN')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/account"><h4>Accounts</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/car"><h4>Cars</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/option"><h4>Options</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/order/awaitlist"><h4>Await orders</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/order/runlist"><h4>Run orders</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/order/donelist"><h4>Done orders</h4></a></li>
+                </c:if>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/order/cancelledlist"><h4>Cancelled orders</h4></a></li>
+                </c:if>
+            </ul>
+            <ul class="navbar-nav">
+                <c:if test="${pageContext.request.userPrincipal.name == null}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login"><h4>Sign in</h4></a></li>
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/registration"><h4>Sign up</h4></a></li>
+                </c:if>
+                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><h4>Logout (${pageContext.request.userPrincipal.name})</h4></a></li>
+                </c:if>
+            </ul>
+        </div>
+
+    </nav>
+<%--    <div class="navbar-inverse navbar-fixed-top">--%>
+<%--        <ul class="navbar-nav">--%>
+<%--            <c:if test="${role.contains('ADMIN')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/account"><h4>Accounts</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/car"><h4>Cars</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/option"><h4>Options</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/order/awaitlist"><h4>Await orders</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/order/runlist"><h4>Run orders</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/order/donelist"><h4>Done orders</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/order/cancelledlist"><h4>Cancelled orders</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--        </ul>--%>
+<%--        <ul class="navbar-nav pull-right">--%>
+<%--            <c:if test="${pageContext.request.userPrincipal.name == null}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/login"><h4>Sign in</h4></a></li>--%>
+<%--                <li><a href="${pageContext.request.contextPath}/registration"><h4>Sign up</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${pageContext.request.userPrincipal.name != null}">--%>
+<%--                <li><a href="${pageContext.request.contextPath}/logout"><h4>Logout (${pageContext.request.userPrincipal.name})</h4></a></li>--%>
+<%--            </c:if>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
     <br/><br/><br/><br/>
-    <div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">

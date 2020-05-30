@@ -19,8 +19,8 @@ public class Account {
     private String role;
     @OneToOne(mappedBy = "account")
     private Car car;
-    @OneToMany(targetEntity = Order.class, mappedBy = "account")
-    private List<Order> orderList;
+//    @OneToMany(targetEntity = Order.class, mappedBy = "account")
+//    private List<Order> orderList;
 
     public Account() {
     }
@@ -113,53 +113,53 @@ public class Account {
         return car;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
-    }
+//    public List<Order> getOrderList() {
+//        return orderList;
+//    }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", rating=" + rating +
-                ", statusUser='" + statusUser + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Account account = (Account) o;
-
-        if (rating != account.rating) return false;
-        if (!login.equals(account.login)) return false;
-        if (!password.equals(account.password)) return false;
-        if (!firstname.equals(account.firstname)) return false;
-        if (!lastname.equals(account.lastname)) return false;
-        if (!phone.equals(account.phone)) return false;
-        if (!statusUser.equals(account.statusUser)) return false;
-        return role.equals(account.role);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = login.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + firstname.hashCode();
-        result = 31 * result + lastname.hashCode();
-        result = 31 * result + phone.hashCode();
-        result = 31 * result + (int) (rating ^ (rating >>> 32));
-        result = 31 * result + statusUser.hashCode();
-        result = 31 * result + role.hashCode();
-        return result;
-    }
+//    @Override
+//    public String toString() {
+//        return "Account{" +
+//                "id=" + id +
+//                ", login='" + login + '\'' +
+//                ", password='" + password + '\'' +
+//                ", firstname='" + firstname + '\'' +
+//                ", lastname='" + lastname + '\'' +
+//                ", phone='" + phone + '\'' +
+//                ", rating=" + rating +
+//                ", statusUser='" + statusUser + '\'' +
+//                ", role='" + role + '\'' +
+//                '}';
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Account account = (Account) o;
+//
+//        if (rating != account.rating) return false;
+//        if (!login.equals(account.login)) return false;
+//        if (!password.equals(account.password)) return false;
+//        if (!firstname.equals(account.firstname)) return false;
+//        if (!lastname.equals(account.lastname)) return false;
+//        if (!phone.equals(account.phone)) return false;
+//        if (!statusUser.equals(account.statusUser)) return false;
+//        return role.equals(account.role);
+//
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = login.hashCode();
+//        result = 31 * result + password.hashCode();
+//        result = 31 * result + firstname.hashCode();
+//        result = 31 * result + lastname.hashCode();
+//        result = 31 * result + phone.hashCode();
+//        result = 31 * result + (int) (rating ^ (rating >>> 32));
+//        result = 31 * result + statusUser.hashCode();
+//        result = 31 * result + role.hashCode();
+//        return result;
+//    }
 }

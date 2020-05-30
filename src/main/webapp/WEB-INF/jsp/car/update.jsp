@@ -43,10 +43,9 @@
                     </div>
 
                     <h2>Car`s options</h2>
-                    <table class="table table-striped">
+                    <table class="table table-striped table-dark">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Text</th>
                                 <th width="50"></th>
                             </tr>
@@ -54,7 +53,6 @@
                         <tbody>
                             <c:forEach var = "option" items="${optionList}">
                                 <tr>
-                                    <td>${option.id}</td>
                                     <td>${option.text}</td>
                                     <td><a href="${pageContext.request.contextPath}/car/removeOption/${car.id}/${option.id}" class="btn btn-danger btn-sm"><i class="fa fa-times fa-fw"></i></a></td>
                                 </tr>
@@ -62,7 +60,7 @@
                         </tbody>
                     </table>
 
-                    <table class="table table-striped">
+                    <table class="table table-striped table-dark">
                         <h2>Other options</h2>
                         <thead>
                             <tr>

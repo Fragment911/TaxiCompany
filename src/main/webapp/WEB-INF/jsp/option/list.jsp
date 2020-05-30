@@ -1,6 +1,6 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>Option list</h1>
-    <table class="table table-striped">
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
                 <th>Text</th>

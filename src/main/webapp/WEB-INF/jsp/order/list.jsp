@@ -1,16 +1,26 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>${title}</h1>
-    <table class="table table-striped">
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
                 <th>Comment</th>
                 <th>Location</th>
                 <th>Target</th>
                 <th>Price</th>
+                <th>Mark</th>
                 <th>Passenger</th>
+                <th>Driver</th>
                 <th>Car</th>
                 <th>Status</th>
-                <th width="100"></th>
+<%--                <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">--%>
+<%--                    <th width="50"></th>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${(role.contains('DRIVER') || role.contains('PASSENGER')) && (status == 'AWAIT')}">--%>
+<%--                    <th width="95"></th>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${(role.contains('DRIVER') || role.contains('PASSENGER')) && (status != 'AWAIT')}">--%>
+                <th width="50"></th>
+<%--                </c:if>--%>
             </tr>
         </thead>
         <tbody>
@@ -20,10 +30,12 @@
                     <td>${order.location}</td>
                     <td>${order.target}</td>
                     <td>${order.price}</td>
-                    <c:if test="${order.account != null}">
-                        <td>${order.account.login}</td>
+                    <td>${order.mark}</td>
+                    <td>${order.passenger.login}</td>
+                    <c:if test="${order.driver != null}">
+                        <td>${order.driver.login}</td>
                     </c:if>
-                    <c:if test="${order.account == null}">
+                    <c:if test="${order.driver == null}">
                         <td>Free</td>
                     </c:if>
                     <c:if test="${order.car != null}">
@@ -34,9 +46,14 @@
                     </c:if>
                     <td>${order.statusOrder}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
-                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
+                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
                             <a href="${pageContext.request.contextPath}/order/update/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
+                        </c:if>
+                        <c:if test="${!order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
+                        </c:if>
+                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
+                            <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
                         </c:if>
                     </td>
                 </tr>

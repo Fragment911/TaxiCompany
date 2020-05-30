@@ -2,17 +2,17 @@
     <h1>Update order</h1>
     <div class="form-group">
         <c:if test="${role.contains('DRIVER') && order.statusOrder.equals('AWAIT')}">
-            <a href="${pageContext.request.contextPath}/order/run/${order.id}" class="btn btn-primary"><i class="fa fa-share fa-fw"></i>Run</a>
+            <a href="${pageContext.request.contextPath}/order/run/${order.id}" class="btn btn-primary"><i class="fa fa-share fa-fw"></i>Run order</a>
         </c:if>
         <c:if test="${(role.contains('ADMIN') || role.contains('MODER') || role.contains('DRIVER')) && order.statusOrder.equals('RUN')}">
-            <a href="${pageContext.request.contextPath}/order/done/${order.id}" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Done</a>
+            <a href="${pageContext.request.contextPath}/order/done/${order.id}" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Done order</a>
         </c:if>
         <c:if test="${(role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')) && order.statusOrder.equals('AWAIT')}">
-            <a href="${pageContext.request.contextPath}/order/cancel/${order.id}" class="btn btn-warning"><i class="fa fa-reply fa-fw"></i>Cancel</a>
+            <a href="${pageContext.request.contextPath}/order/cancel/${order.id}" class="btn btn-warning"><i class="fa fa-reply fa-fw"></i>Cancel order</a>
         </c:if>
-        <c:if test="${(role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')) && order.statusOrder.equals('RUN')}">
-            <a href="${pageContext.request.contextPath}/order/fail/${order.id}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Fail</a>
-        </c:if>
+<%--        <c:if test="${(role.contains('ADMIN') || role.contains('MODER') || role.contains('PASSENGER')) && order.statusOrder.equals('RUN')}">--%>
+<%--            <a href="${pageContext.request.contextPath}/order/fail/${order.id}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Fail order</a>--%>
+<%--        </c:if>--%>
     </div>
     <form role="form" action="${contextPath}/order/update" method="POST">
         <div class="form-group" style = "display: none">
@@ -67,10 +67,7 @@
         <c:if test="${order.statusOrder.contains('CANCELLED')}">
             <c:set var="statusNum" value="4"/>
         </c:if>
-        <c:if test="${order.statusOrder.contains('FAILED')}">
-            <c:set var="statusNum" value="5"/>
-        </c:if>
         <button type="submit" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Save</button>
-        <a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Back</a>
+        <a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Cancel</a>
     </form>
 <%@ include file="/webresources/footer.jspf"%>
