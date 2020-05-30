@@ -13,6 +13,7 @@
             <c:forEach var = "car" items="${carList}">
                 <tr>
                     <td>${car.number}</td>
+                    
                     <td>${car.carType}</td>
                     <c:if test="${car.account != null}">
                         <td>${car.account.login}</td>
