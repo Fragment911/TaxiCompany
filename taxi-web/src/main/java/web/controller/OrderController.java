@@ -172,13 +172,32 @@ public class OrderController {
 
     @PreAuthorize("hasAnyRole('DRIVER')")
     @RequestMapping(value = {"/take/{id}"}, method = RequestMethod.GET)
-    public String take(@PathVariable("id") Long id) {
+    public String take(Model model, @PathVariable("id") Long id) {
         Order order = orderService.get(id);
-        order.setStatusOrder(StatusOrder.RUN.name());
-        Account account = accountService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).get();
-        Car car = account.getCar();
-        order.setCar(car);
-        orderService.update(order);
+        model.addAttribute("order", order);
+//        model.addAttribute("statusOrderList", StatusOrder.getAll());
+//        model.addAttribute("carList", carService.getAll());
+//        model.addAttribute("accountList", accountService.getByRole("ROLE_DRIVER"));
+        switch (order.getStatusOrder()) {
+            case "AWAIT":
+                model.addAttribute("back", "awaitlist");
+                break;
+            case "RUN":
+                model.addAttribute("back", "runlist");
+                break;
+            case "DONE":
+                model.addAttribute("back", "donelist");
+                break;
+            case "CANCELLED":
+                model.addAttribute("back", "cancelledlist");
+                break;
+        }
+        return "order/take";
+    }
+
+    @RequestMapping(value = {"/take"}, method = RequestMethod.POST)
+    public String run(@Valid Order order) {
+        orderService.take(order);
         return "redirect:/order/runlist";
     }
 

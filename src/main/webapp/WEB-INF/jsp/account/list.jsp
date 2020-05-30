@@ -10,7 +10,7 @@
                 <th>Rating</th>
                 <th>Status</th>
                 <th>Role</th>
-                <th width="100"></th>
+                <th width="101"></th>
             </tr>
         </thead>
         <tbody>

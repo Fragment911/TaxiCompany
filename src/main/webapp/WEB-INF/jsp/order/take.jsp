@@ -1,57 +1,70 @@
 <%@ include file="/webresources/header.jspf"%>
-<h1>Order</h1>
-<table class="table table-striped table-dark">
-    <tbody>
-    <tr>
-        <td><b>Comment</b></td>
-        <td>${order.comment}</td>
-    </tr>
-    <tr>
-        <td><b>Location</b></td>
-        <td>${order.location}</td>
-    </tr>
-    <tr>
-        <td><b>Target</b></td>
-        <td>${order.target}</td>
-    </tr>
-    <tr>
-        <td><b>Price</b></td>
-        <td>${order.price}</td>
-    </tr>
-    <tr>
-        <td><b>Mark</b></td>
-        <td>${order.mark}</td>
-    </tr>
-    <tr>
-        <td><b>Passenger</b></td>
-        <td>${order.passenger.login} ${order.passenger.firstname} ${order.passenger.lastname}</td>
-    </tr>
-    <tr>
-        <td><b>Driver</b></td>
-        <c:if test="${order.driver != null}">
-            <td>${order.driver.login} ${order.driver.firstname} ${order.driver.lastname}</td>
-        </c:if>
-        <c:if test="${order.driver == null}">
-            <td>Free</td>
-        </c:if>
-    </tr>
-    <tr>
-        <td><b>Car</b></td>
-        <c:if test="${order.car != null}">
-            <td>${order.car.number}</td>
-        </c:if>
-        <c:if test="${order.car == null}">
-            <td>Free</td>
-        </c:if>
-    </tr>
-    <tr>
-        <td><b>Status</b></td>
-        <td>${order.statusOrder}</td>
-    </tr>
-    </tbody>
-</table>
-<c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
-    <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Take</a>
-</c:if>
-<a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Back</a>
+<h1>Take order</h1>
+<div class="form-group">
+    <c:if test="${role.contains('DRIVER') && order.statusOrder.equals('AWAIT')}">
+        <a href="${pageContext.request.contextPath}/order/run/${order.id}" class="btn btn-primary"><i class="fa fa-share fa-fw"></i>Run order</a>
+    </c:if>
+    <c:if test="${role.contains('DRIVER') && order.statusOrder.equals('RUN')}">
+        <a href="${pageContext.request.contextPath}/order/done/${order.id}" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Done order</a>
+    </c:if>
+    <c:if test="${role.contains('PASSENGER') && order.statusOrder.equals('AWAIT')}">
+        <a href="${pageContext.request.contextPath}/order/cancel/${order.id}" class="btn btn-warning"><i class="fa fa-reply fa-fw"></i>Cancel order</a>
+    </c:if>
+</div>
+<form role="form" action="${contextPath}/order/take" method="POST">
+    <div class="form-group" style = "display: none">
+        <label for="id">Id</label>
+        <input class="form-control" type="number" name="id" readonly value="${order.id}" autocomplete="off" />
+    </div>
+    <c:if test="${role.contains('PASSENGER')}">
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <input class="form-control" type="text" name="comment" value="${order.comment}" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input class="form-control" type="text" name="location" value="${order.location}" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label for="target">Target</label>
+            <input class="form-control" type="text" name="target" value="${order.target}" autocomplete="off" />
+        </div>
+    </c:if>
+    <c:if test="${role.contains('DRIVER')}">
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input class="form-control" type="number" name="price" value="${order.price}" step="0.5" autocomplete="off" />
+        </div>
+    </c:if>
+    <%--        <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">--%>
+    <%--            <div class="form-group">--%>
+    <%--                <label for="car">Car</label>--%>
+    <%--                <select path="car" name="car" class="form-control" id="car">--%>
+    <%--                    <option value="null">Free</option>--%>
+    <%--                    <c:forEach var = "car" items="${carList}">--%>
+    <%--                        <c:if test="${car.id != order.car.id}">--%>
+    <%--                            <option value="${car.id}">${car.number}</option>--%>
+    <%--                        </c:if>--%>
+    <%--                        <c:if test="${car.id == order.car.id}">--%>
+    <%--                            <option value="${car.id}" selected>${car.number}</option>--%>
+    <%--                        </c:if>--%>
+    <%--                    </c:forEach>--%>
+    <%--                </select>--%>
+    <%--            </div>--%>
+    <%--        </c:if>--%>
+    <c:if test="${order.statusOrder.contains('AWAIT')}">
+        <c:set var="statusNum" value="1"/>
+    </c:if>
+    <c:if test="${order.statusOrder.contains('RUN')}">
+        <c:set var="statusNum" value="2"/>
+    </c:if>
+    <c:if test="${order.statusOrder.contains('DONE')}">
+        <c:set var="statusNum" value="3"/>
+    </c:if>
+    <c:if test="${order.statusOrder.contains('CANCELLED')}">
+        <c:set var="statusNum" value="4"/>
+    </c:if>
+    <button type="submit" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Take</button>
+    <a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Cancel</a>
+</form>
 <%@ include file="/webresources/footer.jspf"%>

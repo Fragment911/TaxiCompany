@@ -3,9 +3,9 @@
     <table class="table table-striped table-dark">
         <thead>
             <tr>
-                <th>Text</th>
+                <th>Option</th>
                 <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
-                    <th width="95"></th>
+                    <th width="101"></th>
                 </c:if>
             </tr>
         </thead>

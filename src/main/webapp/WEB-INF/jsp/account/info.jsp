@@ -27,15 +27,15 @@
                 <td>${account.phone}</td>
             </tr>
             <tr>
-                <td>Rating</td>
+                <td width="50">Rating</td>
                 <td>${account.rating}</td>
             </tr>
             <tr>
-                <td>Status</td>
+                <td width="90">Status</td>
                 <td>${account.statusUser}</td>
             </tr>
             <tr>
-                <td>Role</td>
+                <td width="150">Role</td>
                 <td>${account.role}</td>
             </tr>
         </tbody>

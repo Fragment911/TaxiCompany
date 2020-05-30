@@ -42,7 +42,7 @@ public class Account {
     }
 
     public void setId(long id) {
-        id = id;
+        this.id = id;
     }
 
     public String getLogin() {

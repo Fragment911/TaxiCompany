@@ -1,5 +1,5 @@
 <%@ include file="/webresources/header.jspf"%>
-    <h1>Update account ${account.firstname} ${account.lastname}</h1>
+    <h1>Update account ${account.login}</h1>
     <form role="form" action="${contextPath}/account/update" method="POST">
         <div class="form-group" style = "display: none">
             <label for="id">Id</label>
@@ -34,10 +34,10 @@
             <select path="role" name="role" class="form-control" id="role">
                 <c:forEach var="role" items="${roleList}">
                     <c:if test="${not (role.name().equals(account.role))}">
-                        <option>${role.name()}</option>
+                        <option>ROLE_${role.name()}</option>
                     </c:if>
                     <c:if test="${role.name().equals(account.role)}">
-                        <option selected>${role.name()}</option>
+                        <option selected>ROLE_${role.name()}</option>
                     </c:if>
                 </c:forEach>
             </select>

@@ -53,5 +53,5 @@
     <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
         <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-success"><i class="fa fa-check fa-fw"></i>Take</a>
     </c:if>
-    <a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-danger"><i class="fa fa-times fa-fw"></i>Back</a>
+    <a href="${pageContext.request.contextPath}/order/${back}" class="btn btn-outline-secondary"><i class="fa fa-times fa-fw"></i>Back</a>
 <%@ include file="/webresources/footer.jspf"%>

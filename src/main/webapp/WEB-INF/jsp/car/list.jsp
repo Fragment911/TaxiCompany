@@ -4,8 +4,8 @@
         <thead>
             <tr>
                 <th>Number</th>
-                <th>Type</th>
                 <th>Driver</th>
+                <th>Type</th>
                 <th width="50"></th>
             </tr>
         </thead>
@@ -13,14 +13,13 @@
             <c:forEach var = "car" items="${carList}">
                 <tr>
                     <td>${car.number}</td>
-                    
-                    <td>${car.carType}</td>
                     <c:if test="${car.account != null}">
                         <td>${car.account.login}</td>
                     </c:if>
                     <c:if test="${car.account == null}">
                         <td>Free</td>
                     </c:if>
+                    <td width="100">${car.carType}</td>
                     <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
                         <td>
                             <a href="${pageContext.request.contextPath}/car/update/${car.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>

@@ -11,7 +11,7 @@
                 <th>Passenger</th>
                 <th>Driver</th>
                 <th>Car</th>
-                <th>Status</th>
+                <th width="100">Status</th>
 <%--                <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">--%>
 <%--                    <th width="50"></th>--%>
 <%--                </c:if>--%>
@@ -46,14 +46,20 @@
                     </c:if>
                     <td>${order.statusOrder}</td>
                     <td>
-                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
-                            <a href="${pageContext.request.contextPath}/order/update/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
+                        <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
                         </c:if>
                         <c:if test="${!order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
                             <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
                         </c:if>
+                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
+                            <a href="${pageContext.request.contextPath}/order/update/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
+                        </c:if>
+                        <c:if test="${!order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
+                        </c:if>
                         <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
-                            <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
+                            <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-share fa-fw"></i></a>
                         </c:if>
                     </td>
                 </tr>
