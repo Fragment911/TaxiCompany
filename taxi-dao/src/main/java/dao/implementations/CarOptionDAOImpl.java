@@ -1,11 +1,11 @@
 package dao.implementations;
 
+import org.springframework.stereotype.Repository;
 import api.entity.Car;
 import api.entity.CarOption;
 import api.entity.Option;
 import dao.interfaces.CarOptionDAO;
 import dao.repository.CarOptionRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

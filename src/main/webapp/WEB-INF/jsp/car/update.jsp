@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <form role="form" action="${contextPath}/car/update" method="POST">
-                    <div class="form-group">
+                    <div class="form-group" style = "display: none">
                         <label for="id">Id</label>
                         <input class="form-control" type="number" name="id" readonly value="${car.id}" autocomplete="off" />
                     </div>
                     <div class="form-group">
-                        <label for="number">Option</label>
+                        <label for="number">Number</label>
                         <input class="form-control" type="text" name="number" value="${car.number}" autocomplete="off" />
                     </div>
                     <div class="form-group">
@@ -43,7 +43,7 @@
                     </div>
 
                     <h2>Car`s options</h2>
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -62,7 +62,7 @@
                         </tbody>
                     </table>
 
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped">
                         <h2>Other options</h2>
                         <thead>
                             <tr>

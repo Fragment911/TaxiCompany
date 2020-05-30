@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String login;
     private String password;
@@ -17,7 +17,7 @@ public class Account {
     @Column(name = "status_user")
     private String statusUser;
     private String role;
-    @OneToOne (mappedBy = "account")
+    @OneToOne(mappedBy = "account")
     private Car car;
     @OneToMany(targetEntity = Order.class, mappedBy = "account")
     private List<Order> orderList;

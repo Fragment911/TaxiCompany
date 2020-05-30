@@ -1,7 +1,7 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>Update option</h1>
     <form role="form" action="${contextPath}/option/update" method="POST">
-        <div class="form-group">
+        <div class="form-group" style = "display: none">
             <label for="id">Id</label>
             <input class="form-control" type="number" name="id" readonly value="${option.id}" autocomplete="off" />
         </div>

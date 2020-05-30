@@ -1,6 +1,6 @@
 <%@ include file="/webresources/header.jspf"%>
-    <h1>Order list</h1>
-    <table class="table table-striped table-bordered">
+    <h1>${title}</h1>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Comment</th>

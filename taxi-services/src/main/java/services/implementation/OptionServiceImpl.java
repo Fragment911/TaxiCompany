@@ -1,8 +1,8 @@
 package services.implementation;
 
+import org.springframework.stereotype.Service;
 import api.entity.Option;
 import dao.interfaces.OptionDAO;
-import org.springframework.stereotype.Service;
 import services.interfaces.OptionService;
 
 @Service

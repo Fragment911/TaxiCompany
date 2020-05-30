@@ -1,8 +1,8 @@
 package dao.repository;
 
-import api.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import api.entity.Car;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {

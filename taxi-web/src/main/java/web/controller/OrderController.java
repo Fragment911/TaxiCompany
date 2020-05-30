@@ -1,9 +1,5 @@
 package web.controller;
 
-import api.entity.Account;
-import api.entity.Car;
-import api.entity.Order;
-import api.entity.StatusOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,12 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.RedirectView;
+import api.entity.Account;
+import api.entity.Car;
+import api.entity.Order;
+import api.entity.StatusOrder;
 import services.interfaces.AccountService;
 import services.interfaces.CarService;
 import services.interfaces.OrderService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,6 +66,7 @@ public class OrderController {
             orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
         }
         model.addAttribute("orderList", orderList);
+        model.addAttribute("title", "Await order list");
         return "order/list";
     }
 
@@ -83,6 +83,7 @@ public class OrderController {
             orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
         }
         model.addAttribute("orderList", orderList);
+        model.addAttribute("title", "Run order list");
         return "order/list";
     }
 
@@ -99,6 +100,7 @@ public class OrderController {
             orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
         }
         model.addAttribute("orderList", orderList);
+        model.addAttribute("title", "Done order list");
         return "order/list";
     }
 
@@ -112,6 +114,7 @@ public class OrderController {
             orderList = orderList.stream().filter(order -> order.getAccount().equals(account)).collect(Collectors.toList());
         }
         model.addAttribute("orderList", orderList);
+        model.addAttribute("title", "Cancelled order list");
         return "order/list";
     }
 
@@ -128,6 +131,7 @@ public class OrderController {
             orderList = orderList.stream().filter(order -> order.getCar().equals(car)).collect(Collectors.toList());
         }
         model.addAttribute("orderList", orderList);
+        model.addAttribute("title", "Failed order list");
         return "order/list";
     }
 

@@ -1,8 +1,8 @@
 package dao.repository;
 
-import api.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import api.entity.Order;
 
 import java.util.List;
 

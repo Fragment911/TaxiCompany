@@ -15,7 +15,7 @@
         </c:if>
     </div>
     <form role="form" action="${contextPath}/order/update" method="POST">
-        <div class="form-group">
+        <div class="form-group" style = "display: none">
             <label for="id">Id</label>
             <input class="form-control" type="number" name="id" readonly value="${order.id}" autocomplete="off" />
         </div>

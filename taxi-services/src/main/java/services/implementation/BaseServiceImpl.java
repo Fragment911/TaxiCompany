@@ -1,8 +1,8 @@
 package services.implementation;
 
-import dao.interfaces.BaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import dao.interfaces.BaseDAO;
 
 import java.util.ArrayList;
 import java.util.List;

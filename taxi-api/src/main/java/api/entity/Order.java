@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "order1")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String comment;
     private String location;

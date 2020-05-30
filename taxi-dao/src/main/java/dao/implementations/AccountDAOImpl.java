@@ -1,9 +1,9 @@
 package dao.implementations;
 
+import org.springframework.stereotype.Repository;
 import api.entity.Account;
 import dao.interfaces.AccountDAO;
 import dao.repository.AccountRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

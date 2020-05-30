@@ -1,13 +1,15 @@
 package services.interfaces;
 
+import org.springframework.dao.DataAccessException;
 import api.entity.Account;
-import api.entity.Role;
-import api.entity.StatusUser;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 public interface AccountService extends BaseService<Account> {
     List<Account> getByRole(String role);
     Optional<Account> findByLogin(String username);
+    void registrate(HttpServletRequest request, Account account, String encodedPassword) throws ServletException, DataAccessException;
 }

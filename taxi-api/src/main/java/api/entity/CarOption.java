@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Table(name = "car_option")
 public class CarOption {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne(targetEntity = Car.class)
     private Car car;

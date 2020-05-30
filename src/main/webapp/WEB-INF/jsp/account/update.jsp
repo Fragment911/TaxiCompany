@@ -1,7 +1,7 @@
 <%@ include file="/webresources/header.jspf"%>
     <h1>Update account ${account.firstname} ${account.lastname}</h1>
     <form role="form" action="${contextPath}/account/update" method="POST">
-        <div class="form-group">
+        <div class="form-group" style = "display: none">
             <label for="id">Id</label>
             <input class="form-control" type="number" name="id" readonly value="${account.id}" autocomplete="off" />
         </div>
@@ -30,7 +30,7 @@
             <input class="form-control" type="number" name="rating" readonly value="${account.rating}" autocomplete="off" />
         </div>
         <div class="form-group">
-            <label for="role">Example select</label>
+            <label for="role">Role list</label>
             <select path="role" name="role" class="form-control" id="role">
                 <c:forEach var="role" items="${roleList}">
                     <c:if test="${not (role.name().equals(account.role))}">
@@ -43,7 +43,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="statusUser">Example select</label>
+            <label for="statusUser">Status list</label>
             <select path="statusUser" name="statusUser" class="form-control" id="statusUser">
                 <c:forEach var="statusUser" items="${statusList}">
                     <c:if test="${not (statusUser.name().equals(account.statusUser))}">

@@ -1,10 +1,10 @@
 package dao.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import api.entity.Car;
 import api.entity.CarOption;
 import api.entity.Option;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

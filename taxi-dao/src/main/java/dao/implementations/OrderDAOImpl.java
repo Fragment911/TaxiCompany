@@ -1,9 +1,9 @@
 package dao.implementations;
 
+import org.springframework.stereotype.Repository;
 import api.entity.Order;
 import dao.interfaces.OrderDAO;
 import dao.repository.OrderRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

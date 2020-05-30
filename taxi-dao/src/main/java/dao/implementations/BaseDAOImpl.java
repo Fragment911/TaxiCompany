@@ -1,8 +1,8 @@
 package dao.implementations;
 
-import dao.interfaces.BaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import dao.interfaces.BaseDAO;
 
 import java.util.ArrayList;
 import java.util.List;
