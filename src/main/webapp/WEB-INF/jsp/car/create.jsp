@@ -17,8 +17,8 @@
             <label for="account">Driver</label>
             <select path="account" name="account" class="form-control" id="account">
                 <option value="${null}">Free</option>
-                <c:forEach var="account" items="${accountList}">
-                    <option value="${account.id}">${account.login}</option>
+                <c:forEach var="driver" items="${driverList}">
+                    <option value="${driver.id}">${driver.login}</option>
                 </c:forEach>
             </select>
         </div>

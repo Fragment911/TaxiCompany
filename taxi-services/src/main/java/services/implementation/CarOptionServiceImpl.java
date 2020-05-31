@@ -1,25 +1,35 @@
 package services.implementation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import api.entity.Car;
 import api.entity.CarOption;
-import api.entity.Option;
 import dao.interfaces.CarOptionDAO;
 import services.interfaces.CarOptionService;
+import services.interfaces.CarService;
+import services.interfaces.OptionService;
 
 import java.util.List;
 
 @Service
 public class CarOptionServiceImpl extends BaseServiceImpl<CarOption, CarOptionDAO> implements CarOptionService {
+    @Autowired
+    CarService carService;
+    @Autowired
+    OptionService optionService;
 
-    @Transactional
-    public List<CarOption> getByCar(Car car) {
-        return tDAO.findByCar(car);
+    public void create(long carId, long optionId) {
+        CarOption carOption = new CarOption(carService.get(carId), optionService.get(optionId));
+        create(carOption);
     }
 
-    @Transactional
-    public List<CarOption> getByCarAndOption(Car car, Option option) {
-        return tDAO.findByCarAndOption(car, option);
+    public void delete(long carId, long optionId) {
+        for (CarOption carOption: tDAO.findByCarAndOption(carService.get(carId), optionService.get(optionId))) {
+            delete(carOption.getId());
+        }
+    }
+
+    public List<CarOption> getByCar(Car car) {
+        return tDAO.findByCar(car);
     }
 }

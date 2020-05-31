@@ -6,7 +6,12 @@
                 <th>Number</th>
                 <th>Driver</th>
                 <th>Type</th>
-                <th width="50"></th>
+                <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
+                    <th width="101"></th>
+                </c:if>
+                <c:if test="${role.contains('DRIVER') || role.contains('PASSENGER')}">
+                    <th width="50"></th>
+                </c:if>
             </tr>
         </thead>
         <tbody>
@@ -20,16 +25,12 @@
                         <td>Free</td>
                     </c:if>
                     <td width="100">${car.carType}</td>
-                    <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
-                        <td>
-                            <a href="${pageContext.request.contextPath}/car/update/${car.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
-                        </td>
-                    </c:if>
-                    <c:if test="${role.contains('DRIVER') || role.contains('PASSENGER')}">
-                        <td>
-                            <a href="${pageContext.request.contextPath}/car/${car.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
-                        </td>
-                    </c:if>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/car/${car.id}" class="btn btn-primary btn-sm" title="Info"><i class="fa fa-info-circle fa-fw"></i></a>
+                        <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
+                            <a href="${pageContext.request.contextPath}/car/update/${car.id}" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-pencil-square fa-fw"></i></a>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>

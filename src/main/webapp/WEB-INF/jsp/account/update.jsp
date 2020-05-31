@@ -1,5 +1,5 @@
 <%@ include file="/webresources/header.jspf"%>
-    <h1>Update account ${account.login}</h1>
+    <h1>Update account ${account.login} (${account.firstname} ${account.lastname})</h1>
     <form role="form" action="${contextPath}/account/update" method="POST">
         <div class="form-group" style = "display: none">
             <label for="id">Id</label>
@@ -10,33 +10,13 @@
             <input class="form-control" type="text" name="login" readonly value="${account.login}" autocomplete="off" />
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input class="form-control" type="text" name="password" readonly value="${account.password}" autocomplete="off" />
-        </div>
-        <div class="form-group">
-            <label for="firstname">Firstname</label>
-            <input class="form-control" type="text" name="firstname" readonly value="${account.firstname}" autocomplete="off" />
-        </div>
-        <div class="form-group">
-            <label for="lastname">Lastname</label>
-            <input class="form-control" type="text" name="lastname" readonly value="${account.lastname}" autocomplete="off" />
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone</label>
-            <input class="form-control" type="text" name="phone" readonly value="${account.phone}" autocomplete="off" />
-        </div>
-        <div class="form-group">
-            <label for="rating">Rating</label>
-            <input class="form-control" type="number" name="rating" readonly value="${account.rating}" autocomplete="off" />
-        </div>
-        <div class="form-group">
             <label for="role">Role list</label>
             <select path="role" name="role" class="form-control" id="role">
                 <c:forEach var="role" items="${roleList}">
-                    <c:if test="${not (role.name().equals(account.role))}">
+                    <c:if test="${!account.role.contains(role.name())}">
                         <option>ROLE_${role.name()}</option>
                     </c:if>
-                    <c:if test="${role.name().equals(account.role)}">
+                    <c:if test="${account.role.contains(role.name())}">
                         <option selected>ROLE_${role.name()}</option>
                     </c:if>
                 </c:forEach>

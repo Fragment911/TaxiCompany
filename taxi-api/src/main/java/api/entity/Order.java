@@ -117,47 +117,4 @@ public class Order {
     public void setStatusOrder(String statusOrder) {
         this.statusOrder = statusOrder;
     }
-
-//    @Override
-//    public String toString() {
-//        return "Order{" +
-//                "id=" + id +
-//                ", comment='" + comment + '\'' +
-//                ", location='" + location + '\'' +
-//                ", target='" + target + '\'' +
-//                ", price=" + price +
-//                ", account=" + account +
-//                ", car=" + car +
-//                ", statusOrder='" + statusOrder + '\'' +
-//                '}';
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Order order = (Order) o;
-//
-//        if (Float.compare(order.price, price) != 0) return false;
-//        if (comment != null ? !comment.equals(order.comment) : order.comment != null) return false;
-//        if (!location.equals(order.location)) return false;
-//        if (!target.equals(order.target)) return false;
-//        if (!account.equals(order.account)) return false;
-//        if (car != null ? !car.equals(order.car) : order.car != null) return false;
-//        return statusOrder.equals(order.statusOrder);
-//
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = comment != null ? comment.hashCode() : 0;
-//        result = 31 * result + location.hashCode();
-//        result = 31 * result + target.hashCode();
-//        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-//        result = 31 * result + account.hashCode();
-//        result = 31 * result + (car != null ? car.hashCode() : 0);
-//        result = 31 * result + statusOrder.hashCode();
-//        return result;
-//    }
 }

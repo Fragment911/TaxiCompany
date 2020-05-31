@@ -1,6 +1,7 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import web.security.WebSecurityConfig;
 import javax.validation.Valid;
 
 @Controller
+@PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping(value = {"/account"}) //todo как то расписать бан пользователя подумаю еще
 public class AccountController {
     @Autowired
@@ -47,10 +49,4 @@ public class AccountController {
         accountService.update(account);
         return "redirect:";
     }
-
-//    @RequestMapping(value = {"/remove/{id}"}, method = RequestMethod.GET)
-//    public RedirectView delete(@PathVariable("id") Long id) {
-//        accountService.delete(id);
-//        return new RedirectView("/account");
-//    }
 }

@@ -14,6 +14,7 @@ public class CarOptionDAOImpl extends BaseDAOImpl<CarOption, CarOptionRepository
     public List<CarOption> findByCar(Car car) {
         return tRepository.findByCar(car);
     }
+
     public List<CarOption> findByCarAndOption(Car car, Option option) {
         return tRepository.findByCarAndOption(car, option);
     }

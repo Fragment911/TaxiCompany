@@ -15,19 +15,24 @@
                     <td>${option.text}</td>
                     <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
                         <td>
-                            <a href="${pageContext.request.contextPath}/option/update/${option.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
-                            <a data-toggle="modal" data-target="#confirm_delete_${option.id}" href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash fa-fw"></i></a>
-                            <div class="modal fade" id="confirm_delete_${option.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <a href="${pageContext.request.contextPath}/option/update/${option.id}" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-pencil-square fa-fw"></i></a>
+                            <a data-toggle="modal" data-target="#confirm_delete_${option.id}" href="#" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash fa-fw"></i></a>
+                            <div class="modal" id="confirm_delete_${option.id}" tabindex="-1" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             <h4 class="modal-title">Confirmation</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+<%--                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
                                         </div>
                                         <div class="modal-body">
                                             <p>Are you sure to delete option?</p>
                                         </div>
                                         <div class="modal-footer">
+<%--                                            <button type="button" class="btn btn-primary">Save changes</button>--%>
+<%--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--%>
                                             <form action="${pageContext.request.contextPath}/option/remove/${option.id}" method="DELETE">
                                                 <a href="#" class="btn" data-dismiss="modal">Cancel</a><button type="submit" class="btn btn-primary">Confirm</button>
                                             </form>

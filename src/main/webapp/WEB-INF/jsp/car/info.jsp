@@ -7,7 +7,7 @@
                 <td>${car.number}</td>
             </tr>
             <tr>
-                <td><b>Account</b></td>
+                <td><b>Driver</b></td>
                 <c:if test="${car.account != null}">
                     <td>${car.account.login} ${car.account.firstname} ${car.account.lastname}</td>
                 </c:if>
@@ -19,6 +19,22 @@
                 <td><b>Type</b></td>
                 <td>${car.carType}</td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2>Car`s options</h2>
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th>Text</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var = "option" items="${carOptionList}">
+            <tr>
+                <td>${option.text}</td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
     <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">

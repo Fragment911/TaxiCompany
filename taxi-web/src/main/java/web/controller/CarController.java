@@ -2,6 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -28,8 +29,6 @@ public class CarController {
     private CarOptionService carOptionService;
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private OrderService orderService;
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String getAll(Model model) {
@@ -40,6 +39,7 @@ public class CarController {
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
     public String get(Model model, @PathVariable("id") Long id) {
         model.addAttribute("car", carService.get(id));
+        model.addAttribute("carOptionList", optionService.getOptionListByCar(carService.get(id)));
         return "car/info";
     }
 
@@ -47,7 +47,7 @@ public class CarController {
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
     public String empty(Model model) {
         model.addAttribute("carTypeList", CarType.getAll());
-        model.addAttribute("accountList", accountService.getAll());
+        model.addAttribute("driverList", accountService.getFreeDriverList());
         return "/car/create";
     }
 
@@ -61,22 +61,12 @@ public class CarController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
     @RequestMapping(value = {"/update/{id}"}, method = RequestMethod.GET)
     public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("car", carService.get(id));
+        Car car = carService.get(id);
+        model.addAttribute("car", car);
         model.addAttribute("carTypeList", CarType.getAll());
-        model.addAttribute("accountList", accountService.getAll());
-        List<Option> optionList = new ArrayList<>();
-        List<CarOption> carOptionList = carOptionService.getByCar(carService.get(id));
-        for (CarOption carOption: carOptionService.getByCar(carService.get(id))) {
-            optionList.add(optionService.get(carOption.getOption().getId()));
-        }
-        model.addAttribute("optionList", optionList);
-        List<Option> optionList1 = new ArrayList<>();
-        for (Option option: optionService.getAll()) {
-            if (!carService.get(id).getOptionList().stream().map(x -> x.getId()).collect(Collectors.toList()).contains(option.getId())) {
-                optionList1.add(option);
-            }
-        }
-        model.addAttribute("optionList1", optionList1);
+        model.addAttribute("driverList", accountService.getFreeDriverList());
+        model.addAttribute("carOptionList", optionService.getOptionListByCar(car));
+        model.addAttribute("otherOptionList", optionService.getOtherOptionList(car));
         return "car/update";
     }
 
@@ -88,33 +78,16 @@ public class CarController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
-    @RequestMapping(value = {"/addOption/{id}/{id1}"}, method = RequestMethod.GET)
-    public String addOption(Model model, @PathVariable("id") Long id, @PathVariable("id1") Long id1) {
-        Car car = carService.get(id);
-        Option option = optionService.get(id1);
-        CarOption carOption = new CarOption(carService.get(id), optionService.get(id1));
-        carOptionService.create(carOption);
-        return "redirect:/car/update/{id}";
+    @RequestMapping(value = {"/addOption/{car_id}/{option_id}"}, method = RequestMethod.GET)
+    public String addOption(Model model, @PathVariable("car_id") Long carId, @PathVariable("option_id") Long optionid) {
+        carOptionService.create(carId, optionid);
+        return "redirect:/car/update/{car_id}";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
-    @RequestMapping(value = {"/removeOption/{id}/{id1}"}, method = RequestMethod.GET)
-    public String removeOption(Model model, @PathVariable("id") Long id, @PathVariable("id1") Long id1) {
-        Car car = carService.get(id);
-        Option option = optionService.get(id1);
-        for (CarOption carOption: carOptionService.getByCarAndOption(carService.get(id), optionService.get(id1))) {
-            carOptionService.delete(carOption.getId());
-        }
-        return "redirect:/car/update/{id}";
-    }
-
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
-    @RequestMapping(value = {"/remove/{id}"}, method = RequestMethod.GET)
-    public RedirectView delete(@PathVariable("id") Long id) {
-        Car car = carService.get(id);
-        if (CollectionUtils.isEmpty(car.getOrderList())) {
-            carService.delete(id);
-        }
-        return new RedirectView("/car");
+    @RequestMapping(value = {"/removeOption/{car_id}/{option_id}"}, method = RequestMethod.GET)
+    public String removeOption(Model model, @PathVariable("car_id") Long carId, @PathVariable("option_id") Long optionid) {
+        carOptionService.delete(carId, optionid);
+        return "redirect:/car/update/{car_id}";
     }
 }

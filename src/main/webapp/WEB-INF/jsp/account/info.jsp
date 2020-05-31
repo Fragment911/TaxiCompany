@@ -2,17 +2,9 @@
     <h1>Account</h1>
     <table class="table table-striped table-dark">
         <tbody>
-<%--            <tr>--%>
-<%--                <td>Id</td>--%>
-<%--                <td>${account.id}</td>--%>
-<%--            </tr>--%>
             <tr>
                 <td>Login</td>
                 <td>${account.login}</td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td>${account.password}</td>
             </tr>
             <tr>
                 <td>Firstname</td>
@@ -27,15 +19,15 @@
                 <td>${account.phone}</td>
             </tr>
             <tr>
-                <td width="50">Rating</td>
+                <td>Rating</td>
                 <td>${account.rating}</td>
             </tr>
             <tr>
-                <td width="90">Status</td>
+                <td>Status</td>
                 <td>${account.statusUser}</td>
             </tr>
             <tr>
-                <td width="150">Role</td>
+                <td>Role</td>
                 <td>${account.role}</td>
             </tr>
         </tbody>

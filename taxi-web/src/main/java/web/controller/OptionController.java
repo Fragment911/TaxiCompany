@@ -25,12 +25,6 @@ public class OptionController {
         return "option/list";
     }
 
-    @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
-    public String get(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("option", optionService.get(id));
-        return "option/info";
-    }
-
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
     public String empty() {

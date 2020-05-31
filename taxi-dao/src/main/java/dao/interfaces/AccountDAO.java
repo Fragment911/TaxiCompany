@@ -1,6 +1,5 @@
 package dao.interfaces;
 
-
 import api.entity.Account;
 
 import java.util.List;

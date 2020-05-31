@@ -6,5 +6,4 @@ import api.entity.Option;
 
 @Repository
 public interface OptionRepository extends JpaRepository<Option, Long> {
-
 }

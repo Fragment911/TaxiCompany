@@ -12,15 +12,7 @@
                 <th>Driver</th>
                 <th>Car</th>
                 <th width="100">Status</th>
-<%--                <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">--%>
-<%--                    <th width="50"></th>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${(role.contains('DRIVER') || role.contains('PASSENGER')) && (status == 'AWAIT')}">--%>
-<%--                    <th width="95"></th>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${(role.contains('DRIVER') || role.contains('PASSENGER')) && (status != 'AWAIT')}">--%>
                 <th width="50"></th>
-<%--                </c:if>--%>
             </tr>
         </thead>
         <tbody>
@@ -47,26 +39,29 @@
                     <td>${order.statusOrder}</td>
                     <td>
                         <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
-                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm" title="Info"><i class="fa fa-info-circle fa-fw"></i></a>
                         </c:if>
                         <c:if test="${!order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
-                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm" title="Info"><i class="fa fa-info-circle fa-fw"></i></a>
                         </c:if>
                         <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('PASSENGER')}">
-                            <a href="${pageContext.request.contextPath}/order/update/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square fa-fw"></i></a>
+                            <a href="${pageContext.request.contextPath}/order/update/${order.id}" class="btn btn-warning btn-sm" title="Edit"><i class="fa fa-pencil-square fa-fw"></i></a>
                         </c:if>
                         <c:if test="${!order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
-                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm"><i class="fa fa-info-circle fa-fw"></i></a>
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm" title="Info"><i class="fa fa-info-circle fa-fw"></i></a>
                         </c:if>
-                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER')}">
-                            <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-warning btn-sm"><i class="fa fa-share fa-fw"></i></a>
+                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER') && hasOrder}">
+                            <a href="${pageContext.request.contextPath}/order/${order.id}" class="btn btn-primary btn-sm" title="Info"><i class="fa fa-info-circle fa-fw"></i></a>
+                        </c:if>
+                        <c:if test="${order.statusOrder.equals('AWAIT') && role.contains('DRIVER') && !hasOrder}">
+                            <a href="${pageContext.request.contextPath}/order/take/${order.id}" class="btn btn-warning btn-sm" title="Take"><i class="fa fa-share fa-fw"></i></a>
                         </c:if>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    <c:if test="${role.contains('PASSENGER')}">
+    <c:if test="${role.contains('PASSENGER') && !hasOrder}">
         <a href="${pageContext.request.contextPath}/order/create" class="btn btn-success"><i class="fa fa-plus fa-fw"></i>New order</a>
     </c:if>
 <%@ include file="/webresources/footer.jspf"%>

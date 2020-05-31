@@ -18,16 +18,45 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implements OrderService {
     @Autowired
     AccountService accountService;
+
     public List<Order> getAll(StatusOrder statusOrder) {
-        Account currentAccount = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account loggedAccount = accountService.getLoggedAccount();
         List<Order> orderList = getByStatusOrder(statusOrder);
-        if (("ROLE_" + Role.PASSENGER.name()).equals(currentAccount.getRole())) {
-            orderList = orderList.stream().filter(order -> order.getPassenger().getId() == currentAccount.getId()).collect(Collectors.toList());
+        if ((Role.ROLE_PASSENGER.name()).equals(loggedAccount.getRole())) {
+            orderList = orderList.stream().filter(order -> order.getPassenger().getId() == loggedAccount.getId()).collect(Collectors.toList());
         }
-        if (("ROLE_" + Role.DRIVER.name()).equals(currentAccount.getRole()) && !StatusOrder.AWAIT.equals(statusOrder)) {
-            orderList = orderList.stream().filter(order -> order.getDriver().getId() == currentAccount.getId()).collect(Collectors.toList());
+        if ((Role.ROLE_DRIVER.name()).equals(loggedAccount.getRole()) && !StatusOrder.AWAIT.equals(statusOrder)) {
+            orderList = orderList.stream().filter(order -> order.getDriver().getId() == loggedAccount.getId()).collect(Collectors.toList());
         }
         return orderList;
+    }
+
+    @Override
+    public void create(Order order) {
+        if (!accountService.hasOrder()) {
+            order.setStatusOrder(StatusOrder.AWAIT.name());
+            order.setPrice(10);
+            order.setPassenger(accountService.getLoggedAccount());
+            tDAO.create(order);
+        }
+    }
+
+    @Override
+    public void update(Order order) {
+        if (order.getPassenger().getId() == accountService.getLoggedAccount().getId()) {
+            Order orderForSave = get(order.getId());
+            orderForSave.setLocation(order.getLocation());
+            orderForSave.setTarget(order.getTarget());
+            orderForSave.setComment(order.getComment());
+            tDAO.update(order);
+        }
+    }
+
+    public void cancel(Order order) {
+        if (order.getPassenger().getId() == accountService.getLoggedAccount().getId() && StatusOrder.AWAIT.name().equals(order.getStatusOrder())) {
+            order.setStatusOrder(StatusOrder.CANCELLED.name());
+            update(order);
+        }
     }
 
     @Transactional
@@ -37,14 +66,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
 
     @Transactional
     public void take(Order order) {
-        Account currentAccount = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        currentAccount = accountService.get(currentAccount.getId());
-        if (("ROLE_" + Role.DRIVER.name()).equals(currentAccount.getRole()) && currentAccount.getCar() != null) {
-            order.setStatusOrder(StatusOrder.RUN.name());
-            Car car = currentAccount.getCar();
-            order.setCar(car);
-            order.setDriver(currentAccount);
-            update(order);
+        if (!accountService.hasOrder()) {
+            Account loggedAccount = accountService.getLoggedAccount();
+            loggedAccount = accountService.get(loggedAccount.getId());
+            if ((Role.ROLE_DRIVER.name()).equals(loggedAccount.getRole()) && loggedAccount.getCar() != null) {
+                Order orderForSave = get(order.getId());
+                orderForSave.setStatusOrder(StatusOrder.RUN.name());
+                orderForSave.setPrice(order.getPrice());
+                Car car = loggedAccount.getCar();
+                orderForSave.setCar(car);
+                orderForSave.setDriver(loggedAccount);
+                update(orderForSave);
+            }
         }
     }
 }
