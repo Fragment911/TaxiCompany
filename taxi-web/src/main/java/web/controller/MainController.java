@@ -15,7 +15,8 @@ import web.security.WebSecurityConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
+// todo тут еще куча работы
+// todo на страничках сделать ошибки вход/регистрации
 @Controller
 public class MainController { // todo сделать бан пользователя
     @Autowired

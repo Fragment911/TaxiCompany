@@ -58,13 +58,18 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
             update(order);
         }
     }
+    public void done(long id) {
+        Order order = get(id);
+        if (accountService.getLoggedAccount().getId() == order.getDriver().getId()) {
+            order.setStatusOrder(StatusOrder.DONE.name());
+            tDAO.update(order);
+        }
+    }
 
-    @Transactional
     public List<Order> getByStatusOrder(StatusOrder statusOrder) {
         return tDAO.findByStatusOrder(statusOrder.name());
     }
 
-    @Transactional
     public void take(Order order) {
         if (!accountService.hasOrder()) {
             Account loggedAccount = accountService.getLoggedAccount();
@@ -76,7 +81,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
                 Car car = loggedAccount.getCar();
                 orderForSave.setCar(car);
                 orderForSave.setDriver(loggedAccount);
-                update(orderForSave);
+                tDAO.update(orderForSave);
             }
         }
     }

@@ -10,4 +10,5 @@ public interface OrderService extends BaseService<Order> {
     List<Order> getByStatusOrder(StatusOrder statusOrder);
     void take(Order order);
     void cancel(Order order);
+    void done(long id);
 }

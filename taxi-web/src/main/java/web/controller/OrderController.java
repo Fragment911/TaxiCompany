@@ -71,9 +71,10 @@ public class OrderController {
     }
 
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
-    public String get(Model model, @PathVariable("id") Long id) {
+    public String get(Model model, @PathVariable("id") Long id) { //todo запретить просмотр пользователям, которые не имеют отношения к заказу
         Order order = orderService.get(id);
         model.addAttribute("order", order);
+        model.addAttribute("hasOrder", accountService.hasOrder());
         switch (order.getStatusOrder()) {
             case "AWAIT":
                 model.addAttribute("back", "awaitlist");
@@ -138,13 +139,19 @@ public class OrderController {
     @RequestMapping(value = {"/update"}, method = RequestMethod.POST)
     public String update(@Valid Order order) {
         orderService.update(order);
+        if (order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
+            orderService.update(order);
+        }
         return "redirect:/order/awaitlist";
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
     @RequestMapping(value = {"/cancel/{id}"}, method = RequestMethod.GET)
     public String cancel(@PathVariable("id") Long id) {
-        orderService.cancel(orderService.get(id));
+        Order order = orderService.get(id);
+        if (order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
+            orderService.cancel(order);
+        }
         return "redirect:/order/cancelledlist";
     }
 
@@ -152,7 +159,7 @@ public class OrderController {
     @RequestMapping(value = {"/take/{id}"}, method = RequestMethod.GET)
     public String take(Model model, @PathVariable("id") Long id) {
         Order order = orderService.get(id);
-        if (!StatusOrder.AWAIT.name().equals(order.getStatusOrder())) {
+        if (!StatusOrder.AWAIT.name().equals(order.getStatusOrder()) || accountService.hasOrder()) {
             return "redirect:/order/awaitlist";
         }
         model.addAttribute("order", order);
@@ -176,16 +183,16 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('DRIVER')")
     @RequestMapping(value = {"/take"}, method = RequestMethod.POST)
     public String run(@Valid Order order) {
-        orderService.take(order);
+        if (!accountService.hasOrder()) {
+            orderService.take(order);
+        }
         return "redirect:/order/runlist";
     }
 
     @PreAuthorize("hasAnyRole('DRIVER')")
     @RequestMapping(value = {"/done/{id}"}, method = RequestMethod.GET)
     public String done(@PathVariable("id") Long id) {
-        Order order = orderService.get(id);
-        order.setStatusOrder(StatusOrder.DONE.name());
-        orderService.update(order);
+        orderService.done(id);
         return "redirect:/order/donelist";
     }
 }
