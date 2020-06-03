@@ -21,7 +21,7 @@ public class OptionServiceImpl extends BaseServiceImpl<Option, OptionDAO> implem
     @Autowired
     CarOptionService carOptionService;
 
-    public List<Option> getOptionListByCar(Car car) {
+    public List<Option> getOptionListByCar(Car car) { // получить список опций автомобиля
         List<Option> optionList = new ArrayList<>();
         for (CarOption carOption : carOptionService.getByCar(car)) {
             optionList.add(get(carOption.getOption().getId()));
@@ -29,7 +29,7 @@ public class OptionServiceImpl extends BaseServiceImpl<Option, OptionDAO> implem
         return optionList;
     }
 
-    public List<Option> getOtherOptionList(Car car) {
+    public List<Option> getOtherOptionList(Car car) { // получить список опций, не относящихся к автомобилю
         List<Option> optionList = new ArrayList<>();
         for (Option option: getAll()) {
             if (!car.getOptionList().stream().map(Option::getId).collect(Collectors.toList()).contains(option.getId())) {

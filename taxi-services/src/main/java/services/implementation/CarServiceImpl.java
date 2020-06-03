@@ -14,7 +14,7 @@ public class CarServiceImpl extends BaseServiceImpl<Car, CarDAO> implements CarS
     AccountService accountService;
 
     @Override
-    public void create(Car car) {
+    public void create(Car car) { // при создании автомобиля проверяем, не приписывается ли ему водитель другого автомобиля
         if (car.getAccount() != null) {
             Account account = accountService.get(car.getAccount().getId());
             if (account.getCar() == null) {
@@ -26,7 +26,7 @@ public class CarServiceImpl extends BaseServiceImpl<Car, CarDAO> implements CarS
     }
 
     @Override
-    public void update(Car car) {
+    public void update(Car car) { // при обновлении автомобиля проверяем, не приписывается ли ему водитель другого автомобиля
         if (car.getAccount() != null) {
             Account account = accountService.get(car.getAccount().getId());
             if (account.getCar() == null) {

@@ -12,7 +12,7 @@ public class Account {
     private String firstname;
     private String lastname;
     private String phone;
-    private long rating;
+    private float rating;
     @Column(name = "status_user")
     private String statusUser;
     private String role;
@@ -82,11 +82,11 @@ public class Account {
         this.phone = phone;
     }
 
-    public long getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

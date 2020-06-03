@@ -14,10 +14,10 @@
             <select path="role" name="role" class="form-control" id="role">
                 <c:forEach var="role" items="${roleList}">
                     <c:if test="${!account.role.contains(role.name())}">
-                        <option>ROLE_${role.name()}</option>
+                        <option>${role.name()}</option>
                     </c:if>
                     <c:if test="${account.role.contains(role.name())}">
-                        <option selected>ROLE_${role.name()}</option>
+                        <option selected>${role.name()}</option>
                     </c:if>
                 </c:forEach>
             </select>

@@ -2,15 +2,11 @@ package services.implementation;
 
 import api.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import dao.interfaces.OrderDAO;
 import services.interfaces.AccountService;
 import services.interfaces.OrderService;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,25 +48,32 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
         }
     }
 
-    public void cancel(Order order) {
+    public boolean cancel(Order order) {
         if (order.getPassenger().getId() == accountService.getLoggedAccount().getId() && StatusOrder.AWAIT.name().equals(order.getStatusOrder())) {
             order.setStatusOrder(StatusOrder.CANCELLED.name());
             update(order);
+            return true;
         }
+        return false;
     }
-    public void done(long id) {
+
+    public boolean done(long id) {
         Order order = get(id);
         if (accountService.getLoggedAccount().getId() == order.getDriver().getId()) {
             order.setStatusOrder(StatusOrder.DONE.name());
+            order.setMark(5);
             tDAO.update(order);
+            accountService.calculate(accountService.getLoggedAccount());
+            return true;
         }
+        return false;
     }
 
     public List<Order> getByStatusOrder(StatusOrder statusOrder) {
         return tDAO.findByStatusOrder(statusOrder.name());
     }
 
-    public void take(Order order) {
+    public boolean take(Order order) {
         if (!accountService.hasOrder()) {
             Account loggedAccount = accountService.getLoggedAccount();
             loggedAccount = accountService.get(loggedAccount.getId());
@@ -82,7 +85,30 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
                 orderForSave.setCar(car);
                 orderForSave.setDriver(loggedAccount);
                 tDAO.update(orderForSave);
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean mark(Order order) {
+        Account loggedAccount = accountService.getLoggedAccount();
+        Order orderForSave = get(order.getId());
+        if (loggedAccount.getId() == orderForSave.getPassenger().getId()) {
+            if ((Role.ROLE_PASSENGER.name()).equals(loggedAccount.getRole()) && orderForSave.getStatusOrder().equals(StatusOrder.DONE.name())) {
+                if (order.getMark() < 1) {
+                    order.setMark(1);
+                }
+                if (order.getMark() > 5) {
+                    order.setMark(5);
+                }
+                orderForSave.setMark(order.getMark());
+                order.setMark(5);
+                tDAO.update(orderForSave);
+                accountService.calculate(orderForSave.getDriver());
+                return true;
+            }
+        }
+        return false;
     }
 }

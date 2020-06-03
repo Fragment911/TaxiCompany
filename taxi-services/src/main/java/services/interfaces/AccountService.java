@@ -15,4 +15,5 @@ public interface AccountService extends BaseService<Account> {
     void registrate(HttpServletRequest request, Account account, String encodedPassword) throws ServletException, DataAccessException;
     Account getLoggedAccount();
     boolean hasOrder();
+    boolean calculate(Account account);
 }

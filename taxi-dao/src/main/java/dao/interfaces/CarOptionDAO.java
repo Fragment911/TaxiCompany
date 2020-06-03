@@ -9,5 +9,4 @@ import java.util.List;
 public interface CarOptionDAO extends BaseDAO<CarOption> {
     List<CarOption> findByCar(Car car);
     List<CarOption> findByCarAndOption(Car car, Option option);
-    void delete(CarOption carOption);
 }

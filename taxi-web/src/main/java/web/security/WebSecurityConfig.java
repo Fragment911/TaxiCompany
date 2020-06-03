@@ -33,8 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-//                .antMatchers("/option/**").access("hasRole('ADMIN') or hasRole('MODER')")
-//                .antMatchers("/car/**").access("hasRole('ADMIN') or hasRole('MODER') or hasRole('DRIVER')")
                 .antMatchers("/option/**").authenticated()
                 .antMatchers("/car/**").authenticated()
                 .antMatchers("/account/**").access("hasRole('ADMIN')")

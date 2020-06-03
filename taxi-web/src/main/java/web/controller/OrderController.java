@@ -2,16 +2,11 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.view.RedirectView;
-import api.entity.Account;
-import api.entity.Car;
 import api.entity.Order;
 import api.entity.StatusOrder;
 import services.interfaces.AccountService;
@@ -19,10 +14,6 @@ import services.interfaces.CarService;
 import services.interfaces.OrderService;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Controller
 @RequestMapping(value = {"/order"})
 public class OrderController {
@@ -193,6 +184,24 @@ public class OrderController {
     @RequestMapping(value = {"/done/{id}"}, method = RequestMethod.GET)
     public String done(@PathVariable("id") Long id) {
         orderService.done(id);
+        return "redirect:/order/donelist";
+    }
+
+    @PreAuthorize("hasAnyRole('PASSENGER')")
+    @RequestMapping(value = {"/mark/{id}"}, method = RequestMethod.GET)
+    public String mark(Model model, @PathVariable("id") Long id) {
+        Order order = orderService.get(id);
+        if (!StatusOrder.DONE.name().equals(order.getStatusOrder()) || order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
+            return "redirect:/order/donelist";
+        }
+        model.addAttribute("order", order);
+        return "order/mark";
+    }
+
+    @PreAuthorize("hasAnyRole('PASSENGER')")
+    @RequestMapping(value = {"/mark"}, method = RequestMethod.POST)
+    public String saveMark(@Valid Order order) {
+        orderService.mark(order);
         return "redirect:/order/donelist";
     }
 }

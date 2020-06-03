@@ -18,10 +18,12 @@
                 <td><b>Price</b></td>
                 <td>${order.price}</td>
             </tr>
-            <tr>
-                <td><b>Mark</b></td>
-                <td>${order.mark}</td>
-            </tr>
+            <c:if test="${!order.statusOrder.equals('DONE')}">
+                <tr>
+                    <td><b>Mark</b></td>
+                    <td>${order.mark}</td>
+                </tr>
+            </c:if>
             <tr>
                 <td><b>Passenger</b></td>
                 <td>${order.passenger.login} ${order.passenger.firstname} ${order.passenger.lastname}</td>

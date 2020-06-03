@@ -18,8 +18,4 @@ public class CarOptionDAOImpl extends BaseDAOImpl<CarOption, CarOptionRepository
     public List<CarOption> findByCarAndOption(Car car, Option option) {
         return tRepository.findByCarAndOption(car, option);
     }
-
-    public void delete(CarOption carOption) {
-        tRepository.delete(carOption);
-    }
 }
