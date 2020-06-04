@@ -4,18 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import api.entity.Order;
 import api.entity.StatusOrder;
-import services.interfaces.AccountService;
-import services.interfaces.CarService;
-import services.interfaces.OrderService;
+import api.interfaces.AccountService;
+import api.interfaces.CarService;
+import api.interfaces.OrderService;
 
 import javax.validation.Valid;
 @Controller
-@RequestMapping(value = {"/order"})
+@RequestMapping(value = {"order"})
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -24,7 +22,7 @@ public class OrderController {
     @Autowired
     private CarService carService;
 
-    @RequestMapping(value = {"/awaitlist"}, method = RequestMethod.GET)
+    @GetMapping(value = {"awaitlist"})
     public String getAwait(Model model) {
         model.addAttribute("orderList", orderService.getAll(StatusOrder.AWAIT));
         model.addAttribute("status", "AWAIT");
@@ -33,7 +31,7 @@ public class OrderController {
         return "order/list";
     }
 
-    @RequestMapping(value = {"/runlist"}, method = RequestMethod.GET)
+    @GetMapping(value = {"runlist"})
     public String getRun(Model model) {
         model.addAttribute("orderList", orderService.getAll(StatusOrder.RUN));
         model.addAttribute("status", "RUN");
@@ -42,7 +40,7 @@ public class OrderController {
         return "order/list";
     }
 
-    @RequestMapping(value = {"/donelist"}, method = RequestMethod.GET)
+    @GetMapping(value = {"donelist"})
     public String getDone(Model model) {
         model.addAttribute("orderList", orderService.getAll(StatusOrder.DONE));
         model.addAttribute("status", "DONE");
@@ -52,7 +50,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER', 'PASSENGER')")
-    @RequestMapping(value = {"/cancelledlist"}, method = RequestMethod.GET)
+    @GetMapping(value = {"cancelledlist"})
     public String getCancelled(Model model) {
         model.addAttribute("orderList", orderService.getAll(StatusOrder.CANCELLED));
         model.addAttribute("status", "CANCELLED");
@@ -61,7 +59,7 @@ public class OrderController {
         return "order/list";
     }
 
-    @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"{id}"})
     public String get(Model model, @PathVariable("id") Long id) { //todo запретить просмотр пользователям, которые не имеют отношения к заказу
         Order order = orderService.get(id);
         model.addAttribute("order", order);
@@ -84,7 +82,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
+    @GetMapping(value = {"create"})
     public String empty(Model model) {
         model.addAttribute("statusOrderList", StatusOrder.getAll());
         model.addAttribute("accountList", accountService.getByRole("ROLE_DRIVER"));
@@ -92,14 +90,14 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
+    @PostMapping(value = {"create"})
     public String create(@Valid Order order) {
         orderService.create(order);
         return "redirect:/order/awaitlist";
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/update/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"update/{id}"})
     public String edit(Model model, @PathVariable("id") Long id) {
         Order order = orderService.get(id);
         if (order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
@@ -127,7 +125,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/update"}, method = RequestMethod.POST)
+    @PostMapping(value = {"update"})
     public String update(@Valid Order order) {
         orderService.update(order);
         if (order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
@@ -137,7 +135,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/cancel/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"cancel/{id}"})
     public String cancel(@PathVariable("id") Long id) {
         Order order = orderService.get(id);
         if (order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
@@ -147,7 +145,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('DRIVER')")
-    @RequestMapping(value = {"/take/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"take/{id}"})
     public String take(Model model, @PathVariable("id") Long id) {
         Order order = orderService.get(id);
         if (!StatusOrder.AWAIT.name().equals(order.getStatusOrder()) || accountService.hasOrder()) {
@@ -172,7 +170,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('DRIVER')")
-    @RequestMapping(value = {"/take"}, method = RequestMethod.POST)
+    @PostMapping(value = {"take"})
     public String run(@Valid Order order) {
         if (!accountService.hasOrder()) {
             orderService.take(order);
@@ -181,14 +179,14 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('DRIVER')")
-    @RequestMapping(value = {"/done/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"done/{id}"})
     public String done(@PathVariable("id") Long id) {
         orderService.done(id);
         return "redirect:/order/donelist";
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/mark/{id}"}, method = RequestMethod.GET)
+    @GetMapping(value = {"mark/{id}"})
     public String mark(Model model, @PathVariable("id") Long id) {
         Order order = orderService.get(id);
         if (!StatusOrder.DONE.name().equals(order.getStatusOrder()) || order.getPassenger().getId() != accountService.getLoggedAccount().getId()) {
@@ -199,7 +197,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('PASSENGER')")
-    @RequestMapping(value = {"/mark"}, method = RequestMethod.POST)
+    @PostMapping(value = {"mark"})
     public String saveMark(@Valid Order order) {
         orderService.mark(order);
         return "redirect:/order/donelist";

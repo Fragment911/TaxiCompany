@@ -4,8 +4,8 @@ import api.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import dao.interfaces.OrderDAO;
-import services.interfaces.AccountService;
-import services.interfaces.OrderService;
+import api.interfaces.AccountService;
+import api.interfaces.OrderService;
 
 import java.util.List;
 import java.util.stream.Collectors;

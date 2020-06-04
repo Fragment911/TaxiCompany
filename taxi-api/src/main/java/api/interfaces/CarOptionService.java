@@ -1,4 +1,4 @@
-package services.interfaces;
+package api.interfaces;
 
 import api.entity.Car;
 import api.entity.CarOption;

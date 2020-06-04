@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import api.entity.Account;
 import api.entity.Car;
 import dao.interfaces.CarDAO;
-import services.interfaces.AccountService;
-import services.interfaces.CarService;
+import api.interfaces.AccountService;
+import api.interfaces.CarService;
 
 @Service
 public class CarServiceImpl extends BaseServiceImpl<Car, CarDAO> implements CarService {

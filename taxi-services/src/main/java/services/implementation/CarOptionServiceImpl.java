@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import api.entity.Car;
 import api.entity.CarOption;
 import dao.interfaces.CarOptionDAO;
-import services.interfaces.CarOptionService;
-import services.interfaces.CarService;
-import services.interfaces.OptionService;
+import api.interfaces.CarOptionService;
+import api.interfaces.CarService;
+import api.interfaces.OptionService;
 
 import java.util.List;
 

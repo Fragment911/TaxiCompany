@@ -9,7 +9,7 @@
                 <c:if test="${role.contains('ADMIN') || role.contains('MODER')}">
                     <th width="101"></th>
                 </c:if>
-                <c:if test="${role.contains('DRIVER') || role.contains('PASSENGER')}">
+                <c:if test="${!role.contains('ADMIN') && !role.contains('MODER')}">
                     <th width="50"></th>
                 </c:if>
             </tr>

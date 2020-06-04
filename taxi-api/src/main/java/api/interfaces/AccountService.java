@@ -1,4 +1,4 @@
-package services.interfaces;
+package api.interfaces;
 
 import org.springframework.dao.DataAccessException;
 import api.entity.Account;
