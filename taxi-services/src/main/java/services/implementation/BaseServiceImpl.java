@@ -1,31 +1,31 @@
 package services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import dao.interfaces.BaseDAO;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-class BaseServiceImpl<T, TDAO extends BaseDAO<T>> {
+class BaseServiceImpl<T, TRepository extends JpaRepository<T, Long>> {
     @Autowired
-    TDAO tDAO;
+    TRepository tRepository;
 
     public void create(T t) {
-        tDAO.create(t);
+        tRepository.save(t);
     }
 
     public T get(Long id) {
-        return tDAO.get(id);
+        return tRepository.findOne(id);
     }
 
     public List<T> getAll() {
-        return tDAO.getAll();
+        return tRepository.findAll();
     }
 
     public void update(T t) {
-        tDAO.update(t);
+        tRepository.save(t);
     }
 
     public void delete(Long id) {
-        tDAO.delete(id);
+        tRepository.delete(id);
     }
 }

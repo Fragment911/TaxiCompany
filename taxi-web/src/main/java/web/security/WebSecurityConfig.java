@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/order/**").authenticated()
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/account/login").permitAll()
-                .and().exceptionHandling().accessDeniedPage("/403");
+                .and().exceptionHandling().accessDeniedPage("/account/403");
     }
 
     @Bean

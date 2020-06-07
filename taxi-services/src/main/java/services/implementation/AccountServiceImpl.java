@@ -1,11 +1,10 @@
 package services.implementation;
 
 import api.entity.*;
+import dao.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import dao.interfaces.AccountDAO;
 import api.interfaces.AccountService;
 import api.interfaces.OrderService;
 
@@ -16,14 +15,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AccountServiceImpl extends BaseServiceImpl<Account, AccountDAO> implements AccountService {
+public class AccountServiceImpl extends BaseServiceImpl<Account, AccountRepository> implements AccountService {
     @Autowired
     OrderService orderService;
 
     @Override
     public List<Account> getAll() { // для админа выводим всех пользователей кроме него самого
         Account loggedAccount = getLoggedAccount();
-        List<Account> accountList = tDAO.getAll().stream().filter(account -> account.getId() != loggedAccount.getId()).collect(Collectors.toList());
+        List<Account> accountList = tRepository.findAll().stream().filter(account -> account.getId() != loggedAccount.getId()).collect(Collectors.toList());
         return accountList;
     }
 // сделать страничку "Профиль"
@@ -33,7 +32,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountDAO> imp
             Account accountForSave = get(account.getId());
             accountForSave.setRole(account.getRole());
             accountForSave.setStatusUser(account.getStatusUser());
-            tDAO.update(accountForSave);
+            tRepository.save(accountForSave);
             if (Role.ROLE_DRIVER.name().equals(account.getRole())) {
                 calculate(accountForSave);
             }
@@ -41,19 +40,19 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountDAO> imp
     }
 
     public List<Account> getFreeDriverList() {
-        List<Account> accountList = tDAO.findByRole(Role.ROLE_DRIVER.name()).stream().filter(account -> account.getCar() == null).collect(Collectors.toList());
+        List<Account> accountList = tRepository.findByRole(Role.ROLE_DRIVER.name()).stream().filter(account -> account.getCar() == null).collect(Collectors.toList());
         return accountList;
     }
 
     public List<Account> getByRole(String role) {
-        return tDAO.findByRole(role);
+        return tRepository.findByRole(role);
     }
 
     public Optional<Account> findByLogin(String username) { // метод используется в spring sequrity
-        return tDAO.findByLogin(username);
+        return tRepository.findByLogin(username);
     }
 
-    public void registrate(HttpServletRequest request, Account account, String encodedPassword) throws ServletException, DataAccessException {
+    public void registrate(HttpServletRequest request, Account account, String encodedPassword) throws ServletException {
         String password = account.getPassword();
         account.setPassword(encodedPassword);
         account.setRating(5);
@@ -86,11 +85,11 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountDAO> imp
             List<Order> orderList = orderService.getAll().stream().filter(x -> x.getStatusOrder().equals(StatusOrder.DONE.name())).collect(Collectors.toList());
             float rating = (float) orderList.stream().mapToDouble(Order::getMark).average().getAsDouble();
             account.setRating(rating);
-            tDAO.update(account);
+            update(account);
             return true;
         } else {
             account.setRating(0);
-            tDAO.update(account);
+            update(account);
             return true;
         }
     }

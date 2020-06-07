@@ -1,9 +1,9 @@
 package services.implementation;
 
 import api.entity.*;
+import dao.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import dao.interfaces.OrderDAO;
 import api.interfaces.AccountService;
 import api.interfaces.OrderService;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implements OrderService {
+public class OrderServiceImpl extends BaseServiceImpl<Order, OrderRepository> implements OrderService {
     @Autowired
     AccountService accountService;
 
@@ -33,7 +33,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
             order.setStatusOrder(StatusOrder.AWAIT.name());
             order.setPrice(10);
             order.setPassenger(accountService.getLoggedAccount());
-            tDAO.create(order);
+            tRepository.save(order);
         }
     }
 
@@ -44,7 +44,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
             orderForSave.setLocation(order.getLocation());
             orderForSave.setTarget(order.getTarget());
             orderForSave.setComment(order.getComment());
-            tDAO.update(order);
+            tRepository.save(order);
         }
     }
 
@@ -62,7 +62,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
         if (accountService.getLoggedAccount().getId() == order.getDriver().getId()) {
             order.setStatusOrder(StatusOrder.DONE.name());
             order.setMark(5);
-            tDAO.update(order);
+            update(order);
             accountService.calculate(accountService.getLoggedAccount());
             return true;
         }
@@ -70,7 +70,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
     }
 
     public List<Order> getByStatusOrder(StatusOrder statusOrder) {
-        return tDAO.findByStatusOrder(statusOrder.name());
+        return tRepository.findByStatusOrder(statusOrder.name());
     }
 
     public boolean take(Order order) {
@@ -84,7 +84,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
                 Car car = loggedAccount.getCar();
                 orderForSave.setCar(car);
                 orderForSave.setDriver(loggedAccount);
-                tDAO.update(orderForSave);
+                update(orderForSave);
                 return true;
             }
         }
@@ -104,7 +104,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, OrderDAO> implement
                 }
                 orderForSave.setMark(order.getMark());
                 order.setMark(5);
-                tDAO.update(orderForSave);
+                update(orderForSave);
                 accountService.calculate(orderForSave.getDriver());
                 return true;
             }
