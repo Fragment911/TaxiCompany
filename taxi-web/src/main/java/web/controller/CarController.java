@@ -3,6 +3,8 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import api.entity.*;
@@ -11,6 +13,8 @@ import api.interfaces.*;
 import javax.validation.Valid;
 
 @Controller
+@Repository
+@Service
 @RequestMapping("car")
 public class CarController {
     @Autowired
@@ -40,7 +44,7 @@ public class CarController {
     public String empty(Model model) {
         model.addAttribute("carTypeList", CarType.getAll());
         model.addAttribute("driverList", accountService.getFreeDriverList());
-        return "/car/create";
+        return "car/create";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")

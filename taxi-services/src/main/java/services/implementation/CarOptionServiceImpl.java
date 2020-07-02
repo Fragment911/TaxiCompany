@@ -11,8 +11,8 @@ import api.interfaces.OptionService;
 
 import java.util.List;
 
-@Service
-public class CarOptionServiceImpl extends BaseServiceImpl<CarOption, CarOptionRepository> implements CarOptionService {
+@Service // todo тесты, моки
+public class CarOptionServiceImpl extends BaseServiceImpl<CarOption, CarOptionRepository> implements CarOptionService { // todo может он не нужен?
     @Autowired
     CarService carService;
     @Autowired

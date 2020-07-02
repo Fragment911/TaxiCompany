@@ -17,13 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<Account, AccountRepository> implements AccountService {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Override
     public List<Account> getAll() { // для админа выводим всех пользователей кроме него самого
         Account loggedAccount = getLoggedAccount();
-        List<Account> accountList = tRepository.findAll().stream().filter(account -> account.getId() != loggedAccount.getId()).collect(Collectors.toList());
-        return accountList;
+        return tRepository.findAll().stream().filter(account -> account.getId() != loggedAccount.getId()).collect(Collectors.toList());
     }
 // сделать страничку "Профиль"
     @Override
@@ -40,8 +39,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, AccountReposito
     }
 
     public List<Account> getFreeDriverList() {
-        List<Account> accountList = tRepository.findByRole(Role.ROLE_DRIVER.name()).stream().filter(account -> account.getCar() == null).collect(Collectors.toList());
-        return accountList;
+        return tRepository.findByRole(Role.ROLE_DRIVER.name()).stream().filter(account -> account.getCar() == null).collect(Collectors.toList());
     }
 
     public List<Account> getByRole(String role) {

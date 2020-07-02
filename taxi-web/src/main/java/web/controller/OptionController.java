@@ -26,7 +26,7 @@ public class OptionController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
     @GetMapping("create")
     public String empty() {
-        return "/option/create";
+        return "option/create";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODER')")
@@ -54,6 +54,6 @@ public class OptionController {
     @GetMapping("remove/{id}")
     public RedirectView delete(@PathVariable("id") Long id) {
         optionService.delete(id);
-        return new RedirectView("/option");
+        return new RedirectView("option");
     }
 }
