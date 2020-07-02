@@ -12,7 +12,7 @@ import api.interfaces.OptionService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("option") // todo поубирать слэши
+@RequestMapping("option")
 public class OptionController {
     @Autowired
     private OptionService optionService;

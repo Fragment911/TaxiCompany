@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("account") //todo как то расписать бан пользователя подумаю еще
+@RequestMapping("account") //todo бан пользователя
 public class AccountController {
     @Autowired
     WebSecurityConfig webSecurityConfig;
